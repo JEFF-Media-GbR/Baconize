@@ -1,0 +1,4 @@
+name: HarvestBacon
+version: '${project.version}'
+main: com.jeff_media.harvestbacon.HarvestBacon
+api-version: 1.13
