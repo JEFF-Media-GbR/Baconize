@@ -1,0 +1,40 @@
+# Whether the shears take damage when harvesting an animal.
+# This also takes unbreaking into account.
+use-durability: true
+
+# Whether to hurt the animal when it is harvested.
+hurt: true
+
+# How much to hurt the animal.
+# If the amount is set to 0, it only gets visually hurt without taking damage.
+hurt-amount: 0.0
+
+# If false, the animal will not die when it is harvested, even if "hurt" is true and
+# the "hurt-amount" would kill it. It will instead be set to 1 health.
+# If true, and if shearing the animal will kill it, it will only drop its regular drops.
+hurt-can-kill: false
+
+# Whether to turn the animal into a baby when it is harvested.
+# If an entity does not have a baby version, see the "cooldown" option below.
+# Note: Babies can never be harvested.
+turn-to-baby: true
+
+# If "turn-to-baby" is false, or if an entity does not have a baby version,
+# the entity can only be harvested every X seconds (default is 300 seconds = 5 minutes).
+# Note: Babies can never be harvested.
+cooldown: 300
+
+# Which items to drop when harvesting an animal.
+# You can only add entities that have both a baby and adult version.
+# If you want to disable an entity, just remove it from the list.
+# List of valid entity types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+# List of valid item types: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
+drops:
+  PIG:
+    default: PORKCHOP # Pigs drop porkchops when not on fire
+    fire: COOKED_PORKCHOP # Pigs drop cooked porkchops when on fire
+  COW:
+    default: BEEF
+    fire: COOKED_BEEF
+  HORSE:
+    default: LEATHER # Horses drop leather, no matter whether they are on fire or not
