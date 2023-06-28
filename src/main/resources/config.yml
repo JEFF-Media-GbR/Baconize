@@ -5,7 +5,8 @@
 # written by mfnalex / JEFF Media GbR
 # Discord: https://discord.jeff-media.com
 
-
+# To reload this config, enter "/baconize"
+# (requires permission "baconize.reload")
 
 # Whether the shears take damage when harvesting an animal.
 # This also takes unbreaking into account.
