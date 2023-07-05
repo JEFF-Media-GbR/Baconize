@@ -12,6 +12,7 @@ public final class Baconize extends JavaPlugin implements Listener {
 
     private DropManager dropManager;
     private Cooldown entityCooldown;
+    public ConfigValues configValues;
 
     {
         JeffLib.init(this);
@@ -27,8 +28,13 @@ public final class Baconize extends JavaPlugin implements Listener {
 
     public void reload() {
         reloadConfig();
+        initConfig();
         entityCooldown = new Cooldown(TimeUnit.SECONDS);
         dropManager = new DropManager(this, Objects.requireNonNull(getConfig().getConfigurationSection("drops"), "Missing drops section in config."));
+    }
+
+    private void initConfig() {
+        configValues = new ConfigValues(getConfig());
     }
 
     public DropManager getDropManager() {
@@ -39,30 +45,7 @@ public final class Baconize extends JavaPlugin implements Listener {
         return entityCooldown;
     }
 
-    /*
-    Configuration
-     */
-    public boolean shouldUseDurability() {
-        return getConfig().getBoolean("use-durability", true);
-    }
-
-    public boolean shouldHurt() {
-        return getConfig().getBoolean("hurt", true);
-    }
-
-    public double getHurtAmount() {
-        return getConfig().getDouble("hurt-amount", 0.0);
-    }
-
-    public int getCooldownTime() {
-        return getConfig().getInt("cooldown", 300);
-    }
-
-    public boolean shouldTurnToBaby() {
-        return getConfig().getBoolean("turn-to-baby", true);
-    }
-
-    public boolean getHurtCanKill() {
-        return getConfig().getBoolean("hurt-can-kill", false);
+    public ConfigValues getConfigValues() {
+        return configValues;
     }
 }

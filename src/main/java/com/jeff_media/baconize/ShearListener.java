@@ -53,7 +53,7 @@ public class ShearListener implements Listener {
                 return;
             }
 
-            if(plugin.shouldTurnToBaby()) {
+            if(plugin.getConfigValues().shouldTurnToBaby()) {
                 ageable.setBaby();
                 checkForCooldown = false;
             }
@@ -63,7 +63,7 @@ public class ShearListener implements Listener {
             if(plugin.getEntityCooldownManager().hasCooldown(entity)) {
                 return;
             } else {
-                plugin.getEntityCooldownManager().setCooldown(entity, plugin.getCooldownTime(), TimeUnit.SECONDS);
+                plugin.getEntityCooldownManager().setCooldown(entity, plugin.configValues.getCooldownTime(), TimeUnit.SECONDS);
             }
         }
 
@@ -74,18 +74,18 @@ public class ShearListener implements Listener {
 
         world.playSound(entity.getLocation(), Sound.ENTITY_SHEEP_SHEAR, 1, 1);
 
-        if(plugin.shouldUseDurability() && player.getGameMode() != GameMode.CREATIVE) {
+        if(plugin.configValues.shouldUseDurability() && player.getGameMode() != GameMode.CREATIVE) {
             ItemStackUtils.damageItem(1, item, player);
         }
 
-        if(plugin.shouldHurt()) {
-            double damageAmount = plugin.getHurtAmount();
+        if(plugin.configValues.shouldHurt()) {
+            double damageAmount = plugin.configValues.getHurtAmount();
             double health = entity.getHealth();
 
             if(health > damageAmount) {
                 entity.damage(damageAmount, player);
             } else {
-                if(plugin.getHurtCanKill()) {
+                if(plugin.configValues.getHurtCanKill()) {
                     entity.damage(damageAmount, player);
                     return; // Don't drop additional drops
                 } else {
