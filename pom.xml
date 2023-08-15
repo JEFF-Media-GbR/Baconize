@@ -6,7 +6,7 @@
 
     <groupId>com.jeff_media</groupId>
     <artifactId>Baconize</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
 
     <name>Baconize</name>
@@ -100,7 +100,7 @@
         <dependency>
             <groupId>com.jeff-media.jefflib</groupId>
             <artifactId>jefflib</artifactId>
-            <version>13.0.0-alpha4</version>
+            <version>13.0.0-alpha5</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

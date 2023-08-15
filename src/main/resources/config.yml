@@ -59,6 +59,10 @@ turn-to-baby: true
 # Note: Babies can never be harvested.
 cooldown: 300
 
+# If true, animals can only be harvested in WorldGuard regions if the player would be able to build there.
+# This has nothing to do with the additional WorldGuard flag "baconize".
+prevent-in-worldguard-regions: true
+
 # Which items to drop when harvesting an animal.
 # You can only add entities that have both a baby and adult version.
 # If you want to disable an entity, just remove it from the list.

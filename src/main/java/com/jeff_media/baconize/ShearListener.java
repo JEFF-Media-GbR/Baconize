@@ -33,7 +33,7 @@ public class ShearListener implements Listener {
         plugin.debug("PlayerInteractEntityEvent");
         Player player = event.getPlayer();
 
-        if(!(event.getRightClicked() instanceof LivingEntity)) {
+        if (!(event.getRightClicked() instanceof LivingEntity)) {
             plugin.debug("R: Clicked entity is not a LivingEntity");
             return;
         }
@@ -41,23 +41,32 @@ public class ShearListener implements Listener {
         LivingEntity entity = (LivingEntity) event.getRightClicked();
 
         ItemStack item = player.getInventory().getItem(event.getHand());
-        if(item.getType() != Material.SHEARS) {
+        if (item.getType() != Material.SHEARS) {
             plugin.debug("R: Item in hand is not shears");
             return;
         }
 
-        if(!player.hasPermission("baconize.use")) {
+        if (!player.hasPermission("baconize.use")) {
             plugin.debug("R: Player does not have permission");
             return;
         }
 
+        if (plugin.shouldPreventInWorldGuardRegions() && WorldGuardUtils.isWorldGuardInstalledAndEnabled()) {
+
+            if (!WorldGuardUtils.canPlace(player, entity.getLocation())) {
+                plugin.debug("R: Player cannot place blocks here");
+                return;
+            }
+
+        }
+
         DropManager dropManager = plugin.getDropManager();
-        if(!dropManager.isEnabled(entity.getType())) {
+        if (!dropManager.isEnabled(entity.getType())) {
             plugin.debug("R: Entity type is not enabled");
             return;
         }
 
-        if(worldGuardFlag != null) {
+        if (worldGuardFlag != null) {
             StateFlag.State result = WorldGuardUtils.testStateFlag(player, entity.getLocation(), worldGuardFlag);
             if (result == StateFlag.State.DENY) {
                 plugin.debug("R: WorldGuard flag is DENY");
@@ -67,22 +76,22 @@ public class ShearListener implements Listener {
 
         boolean checkForCooldown = true;
 
-        if(entity instanceof Ageable) {
+        if (entity instanceof Ageable) {
             Ageable ageable = (Ageable) entity;
 
-            if(!ageable.isAdult()) {
+            if (!ageable.isAdult()) {
                 plugin.debug("R: Entity is not adult");
                 return;
             }
 
-            if(plugin.shouldTurnToBaby()) {
+            if (plugin.shouldTurnToBaby()) {
                 ageable.setBaby();
                 checkForCooldown = false;
             }
         }
 
-        if(checkForCooldown) {
-            if(plugin.getEntityCooldownManager().hasCooldown(entity)) {
+        if (checkForCooldown) {
+            if (plugin.getEntityCooldownManager().hasCooldown(entity)) {
                 plugin.debug("R: Entity has cooldown");
                 return;
             } else {
@@ -97,24 +106,24 @@ public class ShearListener implements Listener {
 
         world.playSound(entity.getLocation(), Sound.ENTITY_SHEEP_SHEAR, 1, 1);
 
-        if(plugin.shouldUseDurability() && player.getGameMode() != GameMode.CREATIVE) {
+        if (plugin.shouldUseDurability() && player.getGameMode() != GameMode.CREATIVE) {
             ItemStackUtils.damageItem(1, item, player);
         }
 
-        if(plugin.shouldHurt()) {
+        if (plugin.shouldHurt()) {
             double damageAmount = plugin.getHurtAmount();
             double health = entity.getHealth();
 
-            if(health > damageAmount) {
+            if (health > damageAmount) {
                 entity.damage(damageAmount, player);
             } else {
-                if(plugin.getHurtCanKill()) {
+                if (plugin.getHurtCanKill()) {
                     entity.damage(damageAmount, player);
                     return; // Don't drop additional drops
                 } else {
-                    if(health >= damageAmount + 1) {
+                    if (health >= damageAmount + 1) {
                         entity.damage(health - 1, player);
-                    }else {
+                    } else {
                         entity.damage(0, player);
                     }
                 }

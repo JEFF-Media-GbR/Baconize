@@ -77,6 +77,10 @@ public final class Baconize extends JavaPlugin implements Listener {
         return getConfig().getDouble("hurt-amount", 0.0);
     }
 
+    public boolean shouldPreventInWorldGuardRegions() {
+        return getConfig().getBoolean("prevent-in-worldguard-regions", true);
+    }
+
     public int getCooldownTime() {
         return getConfig().getInt("cooldown", 300);
     }
