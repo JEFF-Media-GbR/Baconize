@@ -5,8 +5,33 @@
 # written by mfnalex / JEFF Media GbR
 # Discord: https://discord.jeff-media.com
 
-# To reload this config, enter "/baconize"
-# (requires permission "baconize.reload")
+#########################################
+#####    Commands & Permissions     #####
+#########################################
+
+# Permissions:
+#   baconize.use
+#     Allows to use shear entities using shears
+#     Default: true
+#   baconize.reload
+#     Allows to reload Baconize using /baconize
+#     Default: op
+
+# Commands:
+#   /baconize
+#     Reloads the Baconize configuration
+#     Permission: baconize.reload
+
+#########################################
+#####       WorldGuard Flags        #####
+#########################################
+
+# WorldGuard Flags:
+# - baconize: If set to "deny", animals will not be able to be harvested in this region.
+
+#########################################
+#####        Configuration          #####
+#########################################
 
 # Whether the shears take damage when harvesting an animal.
 # This also takes unbreaking into account.
@@ -48,3 +73,6 @@ drops:
     #fire: COOKED_BEEF
   #HORSE:
     #default: LEATHER # Horses drop leather, no matter whether they are on fire or not
+
+# Debug mode
+debug: false

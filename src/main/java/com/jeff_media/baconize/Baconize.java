@@ -2,6 +2,8 @@ package com.jeff_media.baconize;
 
 import com.jeff_media.jefflib.JeffLib;
 import com.jeff_media.jefflib.data.Cooldown;
+import com.jeff_media.jefflib.pluginhooks.worldguard.StateFlag;
+import com.jeff_media.jefflib.pluginhooks.worldguard.WorldGuardUtils;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,9 +14,20 @@ public final class Baconize extends JavaPlugin implements Listener {
 
     private DropManager dropManager;
     private Cooldown entityCooldown;
+    private StateFlag worldGuardFlag;
 
     {
         JeffLib.init(this);
+    }
+
+    @Override
+    public void onLoad() {
+        try {
+            worldGuardFlag = WorldGuardUtils.registerStateFlag("baconize", StateFlag.State.ALLOW);
+            //System.out.println("Registered WorldGuard flag: " + worldGuardFlag.getName() + " (" + worldGuardFlag.getClass().getName() + ")");
+        } catch (Exception ignored) {
+
+        }
     }
 
     @Override
@@ -25,10 +38,20 @@ public final class Baconize extends JavaPlugin implements Listener {
         Objects.requireNonNull(getCommand("baconize"), "Stop messing with plugin.yml!").setExecutor(new ReloadCommand(this));
     }
 
+    public void debug(String msg) {
+        if(getConfig().getBoolean("debug", false)) {
+            getLogger().info("[Debug] " + msg);
+        }
+    }
+
     public void reload() {
         reloadConfig();
         entityCooldown = new Cooldown(TimeUnit.SECONDS);
         dropManager = new DropManager(this, Objects.requireNonNull(getConfig().getConfigurationSection("drops"), "Missing drops section in config."));
+    }
+
+    public StateFlag getWorldGuardFlag() {
+        return worldGuardFlag;
     }
 
     public DropManager getDropManager() {

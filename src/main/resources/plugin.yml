@@ -2,7 +2,16 @@ name: Baconize
 version: '${project.version}'
 main: com.jeff_media.baconize.Baconize
 api-version: 1.13
+softdepend:
+  - WorldGuard
 commands:
   baconize:
     description: Reloads the Baconize configuration
     permission: baconize.reload
+permissions:
+  baconize.reload:
+    description: Allows to reload Baconize using /baconize
+    default: op
+  baconize.use:
+    description: Allows to use Baconize
+    default: true

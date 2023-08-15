@@ -1,6 +1,8 @@
 package com.jeff_media.baconize;
 
 import com.jeff_media.jefflib.ItemStackUtils;
+import com.jeff_media.jefflib.pluginhooks.worldguard.StateFlag;
+import com.jeff_media.jefflib.pluginhooks.worldguard.WorldGuardUtils;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Ageable;
@@ -18,17 +20,21 @@ import java.util.concurrent.TimeUnit;
 public class ShearListener implements Listener {
 
     private final Baconize plugin;
+    private final StateFlag worldGuardFlag;
 
     public ShearListener(Baconize plugin) {
         this.plugin = plugin;
+        this.worldGuardFlag = plugin.getWorldGuardFlag();
     }
 
     @EventHandler
     public void onShearPig(PlayerInteractEntityEvent event) {
 
+        plugin.debug("PlayerInteractEntityEvent");
         Player player = event.getPlayer();
 
         if(!(event.getRightClicked() instanceof LivingEntity)) {
+            plugin.debug("R: Clicked entity is not a LivingEntity");
             return;
         }
 
@@ -36,12 +42,27 @@ public class ShearListener implements Listener {
 
         ItemStack item = player.getInventory().getItem(event.getHand());
         if(item.getType() != Material.SHEARS) {
+            plugin.debug("R: Item in hand is not shears");
+            return;
+        }
+
+        if(!player.hasPermission("baconize.use")) {
+            plugin.debug("R: Player does not have permission");
             return;
         }
 
         DropManager dropManager = plugin.getDropManager();
         if(!dropManager.isEnabled(entity.getType())) {
+            plugin.debug("R: Entity type is not enabled");
             return;
+        }
+
+        if(worldGuardFlag != null) {
+            StateFlag.State result = WorldGuardUtils.testStateFlag(player, entity.getLocation(), worldGuardFlag);
+            if (result == StateFlag.State.DENY) {
+                plugin.debug("R: WorldGuard flag is DENY");
+                return;
+            }
         }
 
         boolean checkForCooldown = true;
@@ -50,6 +71,7 @@ public class ShearListener implements Listener {
             Ageable ageable = (Ageable) entity;
 
             if(!ageable.isAdult()) {
+                plugin.debug("R: Entity is not adult");
                 return;
             }
 
@@ -61,6 +83,7 @@ public class ShearListener implements Listener {
 
         if(checkForCooldown) {
             if(plugin.getEntityCooldownManager().hasCooldown(entity)) {
+                plugin.debug("R: Entity has cooldown");
                 return;
             } else {
                 plugin.getEntityCooldownManager().setCooldown(entity, plugin.getCooldownTime(), TimeUnit.SECONDS);

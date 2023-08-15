@@ -6,7 +6,7 @@
 
     <groupId>com.jeff_media</groupId>
     <artifactId>Baconize</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>Baconize</name>
@@ -15,6 +15,23 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>export-to-test-server</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <configuration>
+                            <outputDirectory>C:\mctest\plugins</outputDirectory>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
         <plugins>
@@ -25,14 +42,6 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
-                <configuration>
-<!--                    <outputDirectory>C:\mctest\plugins</outputDirectory>-->
                 </configuration>
             </plugin>
             <plugin>
@@ -89,9 +98,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.jeff_media</groupId>
-            <artifactId>JeffLib</artifactId>
-            <version>12.6.0</version>
+            <groupId>com.jeff-media.jefflib</groupId>
+            <artifactId>jefflib</artifactId>
+            <version>13.0.0-alpha4</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
