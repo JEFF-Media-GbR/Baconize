@@ -40,6 +40,11 @@ public class ShearListener implements Listener {
 
         LivingEntity entity = (LivingEntity) event.getRightClicked();
 
+        if(entity.isDead() && plugin.isPreventDead()) {
+            plugin.debug("R: Entity is dead");
+            return;
+        }
+
         ItemStack item = player.getInventory().getItem(event.getHand());
         if (item.getType() != Material.SHEARS) {
             plugin.debug("R: Item in hand is not shears");
