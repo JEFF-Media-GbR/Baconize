@@ -105,7 +105,7 @@ public class ShearListener implements Listener {
         }
 
         ItemMeta meta = Objects.requireNonNull(item.hasItemMeta() ? item.getItemMeta() : Bukkit.getItemFactory().getItemMeta(Material.SHEARS));
-        boolean isOnFire = entity.getFireTicks() > 0 || meta.getEnchantLevel(Enchantment.FIRE_ASPECT) > 0 || meta.getEnchantLevel(Enchantment.ARROW_FIRE) > 0;
+        boolean isOnFire = entity.getFireTicks() > 0 || meta.getEnchantLevel(Enchantment.FIRE_ASPECT) > 0 || meta.getEnchantLevel(Enchantment.FLAME) > 0;
 
         World world = entity.getWorld();
 
